@@ -92,7 +92,7 @@ def analyze_c_sources2(filename):
 
 def arg_parse():
     parser = argparse.ArgumentParser(description='Generate Gtest unit tests using GPT-3')
-    parser.add_argument('--openai-api-key', type=str, help='OpenAI API key')
+    parser.add_argument('--openai-api-key', '-k' ,type=str, required=True,  help='OpenAI API key')
 
     args, remaining_args = parser.parse_known_args()
 
