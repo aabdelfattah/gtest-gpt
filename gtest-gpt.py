@@ -60,20 +60,6 @@ def parse_c_file(file_path):
     print([f"{key}\n" for key, value in function_dict.items()])
     return function_dict
 
-def analyze_c_sources():
-    for filename in os.listdir(dir):
-        if os.path.isfile(os.path.join(dir, filename)):
-            with open(os.path.join(dir, filename), "r") as f:
-                contents = f.read()
-                conversation = [
-                        {
-                        'role': 'user',
-                        'content': 'Please write a unit test using gtest framework for the function {0}'.format(contents)
-                        }
-                    ]
-                conversation = chatgpt(conversation)
-                return conversation[-1]['content']
-
 def analyze_c_sources2(filename):
     function_dict = parse_c_file(filename)
     function_list = [f"{key}\n{value}" for key, value in function_dict.items()]
@@ -116,5 +102,4 @@ def main(args):
 if __name__ == '__main__':
     args=arg_parse()
     main(args)
-    #parse_c_file('test-units/bus_audit_init.c')
     
