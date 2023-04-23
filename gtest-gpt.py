@@ -60,9 +60,12 @@ def parse_c_file(file_path):
     print([f"{key}\n" for key, value in function_dict.items()])
     return function_dict
 
-def analyze_c_sources2(filename):
+def extract_functions(filename):
     function_dict = parse_c_file(filename)
     function_list = [f"{key}\n{value}" for key, value in function_dict.items()]
+    return function_list
+
+def write_gtest(function_list):
     response =[]
     for function in function_list:
         conversation = [
@@ -73,7 +76,7 @@ def analyze_c_sources2(filename):
             ]
         conversation = chatgpt(conversation)
         response.append(conversation[-1]['content'])
-    return response    
+    return response   
 
 
 def arg_parse():
@@ -89,8 +92,8 @@ def main(args):
     openai.api_key = args.openai_api_key
     init_testergpt()
     with open('out_unit_tests2.c', 'w') as test_file:
-        #response = analyze_c_sources()
-        response = analyze_c_sources2('test-units/audit.c')
+        function_list = extract_functions('test-units/audit.c')
+        response = write_gtest(function_list)
         test_file.write('\n'.join(response))
 
     
